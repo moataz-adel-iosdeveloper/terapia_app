@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:terapia_app/Widgets/mainAppBar.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -9,8 +9,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.yellow,
+    return Scaffold(
+      appBar: MainAppBar(
+        height: 180,
+      ),
+      body: ListView(),
     );
   }
 }

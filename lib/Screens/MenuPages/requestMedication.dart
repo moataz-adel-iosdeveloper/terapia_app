@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:terapia_app/Widgets/appBarWithBack.dart';
 
 
 class RequestMedication extends StatefulWidget {
@@ -9,8 +10,14 @@ class RequestMedication extends StatefulWidget {
 class _RequestMedicationState extends State<RequestMedication> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.lime,
+    return Scaffold(
+      appBar: AppBarWithBack(
+        height: 154,
+        title: "Request Medication",
+      ),
+      body: Container(
+        color: Colors.lime,
+      ),
     );
   }
 }

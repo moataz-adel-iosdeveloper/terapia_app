@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:terapia_app/Widgets/appBarWithBack.dart';
 
 class ContactUs extends StatefulWidget {
   @override
@@ -8,8 +9,14 @@ class ContactUs extends StatefulWidget {
 class _ContactUsState extends State<ContactUs> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.purpleAccent,
+    return Scaffold(
+      appBar: AppBarWithBack(
+        height: 154,
+        title: "Contact Us",
+      ),
+      body: Container(
+        color: Colors.purpleAccent,
+      ),
     );
   }
 }
