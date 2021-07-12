@@ -16,6 +16,9 @@ class _AddMedicationState extends State<AddMedication> {
       ),
       body: Container(
         color: Colors.purpleAccent,
+        child: ListView(children: [
+
+        ],),
       ),
     );
   }
