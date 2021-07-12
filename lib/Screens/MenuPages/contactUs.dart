@@ -44,7 +44,6 @@ class _ContactUsState extends State<ContactUs> {
                      child: new Container(
                          margin: EdgeInsets.only(left: 8),
                          child: new TextField(
-
                            controller: nameController,
                            decoration: InputDecoration(
                                border: InputBorder.none,
@@ -105,7 +104,7 @@ class _ContactUsState extends State<ContactUs> {
                  ],
                ),
              ),
-             new Container(
+             Container(
                  height: 155,
                  alignment: Alignment.topLeft,
                  decoration: new BoxDecoration(

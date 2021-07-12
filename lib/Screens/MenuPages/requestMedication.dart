@@ -14,13 +14,18 @@ class RequestMedication extends StatefulWidget {
 }
 
 List<Medicine> medicineLista = [];
+List<String> _DeliveryOption = ["to by agreed later" , "Delivery to me " , "Receive it from anywhere"];
+String _deliveryMethod ;
 
 class _RequestMedicationState extends State<RequestMedication> {
+
+  //TextEditingController _quantityText = new TextEditingController();
+  TextEditingController messageController = new TextEditingController();
   @override
   void initState() {
-    medicineLista.add(new Medicine(1, "Panadol", "Capsule", 1));
-    medicineLista.add(new Medicine(1, "profen", "Capsule", 2));
-    medicineLista.add(new Medicine(0, 'name', 'type', 3));
+    //medicineLista.add(new Medicine(1, "Panadol", "Capsule", 1));
+    //medicineLista.add(new Medicine(1, "profen", "Capsule", 2));
+    //medicineLista.add(new Medicine(0, 'name', 'type', 3));
     super.initState();
   }
 
@@ -259,64 +264,95 @@ class _RequestMedicationState extends State<RequestMedication> {
                                     ))
                               ])),
                     ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text("Delivery Method"),
+                    // Container(
+                    //   //alignment: Alignment.bottomCenter,
+                    //   margin: EdgeInsets.only(left: 20, right: 20, top: 10,bottom: 10),
+                    //   child: TextField(
+                    //     keyboardType: TextInputType.number,
+                    //     controller: _quantityText,
+                    //     decoration: new InputDecoration(
+                    //         border: new OutlineInputBorder(
+                    //           borderRadius: new BorderRadius.all(new Radius.circular(10)),
+                    //           borderSide: BorderSide(
+                    //               width: 0, style: BorderStyle.solid),
+                    //         ),
+                    //         hintText: 'quantity',
+                    //         fillColor: Colors.white,
+                    //         filled: true,
+                    //         hintStyle: new TextStyle(color: Colors.blueGrey),
+                    //     ),
+                    //     textAlign: TextAlign.start,
+                    //     inputFormatters: <TextInputFormatter>[
+                    //       FilteringTextInputFormatter.digitsOnly
+                    //     ],
+                    //     style: TextStyle(
+                    //       color: Colors.black,
+                    //       fontSize: 15,
+                    //     ),
+                    //   ),
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20,right: 20),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            right: 10,
+                            left: 10,
                           ),
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              icon: TextField(
-                                keyboardType: TextInputType.number,
-                                //controller: mobileController,
-                                decoration: new InputDecoration(
-                                    border: new OutlineInputBorder(
-                                      borderRadius: new BorderRadius.all(new Radius.circular(33)),
-                                      borderSide: BorderSide(
-                                          width: 0, style: BorderStyle.none),
-                                    ),
-                                    hintText: 'Phone number',
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    contentPadding:
-                                    EdgeInsets.only(left: 9, right: 9),
-                                    hintStyle: new TextStyle(color: Colors.blueGrey),
-                                    prefixIcon: new Container(
-                                        padding:
-                                        EdgeInsets.symmetric(vertical: 10),
-                                        child: Image(
-                                          image: AssetImage('images/call.png'),
-                                          height: 19,
-                                          width: 15,
-                                          fit: BoxFit.contain,
-                                        ))),
-                                textAlign: TextAlign.start,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              style: const TextStyle(color: Colors.deepPurple),
-                              underline: Container(
-                                height: 0,
-                              ),
-                              items: <String>['Edit', 'Stop'].map((String value) {
-                                return new DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
+                          child: _DeliveryOption != null
+                              ? DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              isExpanded: true,
+                              hint: Text('Delivery Method'),
+                              icon: Icon(Icons.keyboard_arrow_down),
+                              style: TextStyle(color: Colors.black),
+                              iconSize: 24,
+                              value: _deliveryMethod,
+                              elevation: 16,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _deliveryMethod = newValue;
+                                });
+                              },
+                              items: _DeliveryOption.map((String dropdownItems) {
+                                return DropdownMenuItem<String>(
+                                  child: Text(dropdownItems),
+                                  value: dropdownItems,
                                 );
                               }).toList(),
-                              onChanged: (_) {},
                             ),
                           )
-                        ],
+                              : Container(),
+                        ),
                       ),
                     ),
+                    Container(
+                        height: 155,
+                        alignment: Alignment.topLeft,
+                        decoration: new BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
+                          color: Color(0xFFcee8f9),
+                        ),
+                        margin: EdgeInsets.only(right: 20, left: 20, bottom: 10,top: 10),
+                        child: new TextField(
+                          controller: messageController,
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                          textAlign: TextAlign.start,
+                          decoration: new InputDecoration(
+                            hintStyle: TextStyle(color: Colors.black,),
+                            hintText: 'Your_message',
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.all(
+                                  new Radius.circular(5)),
+                              borderSide: BorderSide(
+                                  width: 0, style: BorderStyle.none),
+                            ),
+                          ),
+                        )),
                     Container(
                         padding: EdgeInsets.all(11),
                         width: 160,
