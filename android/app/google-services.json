@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "787427902374",
+    "project_id": "terabia-6ac08",
+    "storage_bucket": "terabia-6ac08.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787427902374:android:fa384bc582cbca8527c567",
+        "android_client_info": {
+          "package_name": "com.example.terapia_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787427902374-b4nhvqoea0u1ou9gpqk7j27hth11bv5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH1-FOXjsGz-n0b5jECOHmLCADQoMFIVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787427902374-b4nhvqoea0u1ou9gpqk7j27hth11bv5r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

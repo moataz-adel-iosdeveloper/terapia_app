@@ -161,7 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 GestureDetector(
                                     onTap: () {
                                       Navigator.of(context).push(
-                                          TransparentRoute(builder: (BuildContext context) => ConformPage(
+                                          TransparentRoute(builder: (BuildContext context) => ConfirmPhone(
                                               mobileController.text))
                                       );
                                       // if (checkData(context)) {

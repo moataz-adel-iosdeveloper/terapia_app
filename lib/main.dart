@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:terapia_app/Screens/Sign/login.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
       MaterialApp(
         theme: ThemeData(
@@ -24,6 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Firebase.initializeApp();
+    });
     Timer(
         Duration(seconds: 3),
             () => Navigator.of(context).pushReplacement(MaterialPageRoute(

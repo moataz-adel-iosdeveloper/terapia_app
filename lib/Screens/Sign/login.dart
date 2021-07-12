@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:terapia_app/Screens/Sign/conformPage.dart';
-import 'package:terapia_app/Screens/Sign/registerPage.dart';
+ import 'package:terapia_app/Screens/Sign/registerPage.dart';
 import 'package:terapia_app/Widgets/persistentBottomNavigation.dart';
 import 'package:terapia_app/Widgets/transparent.dart';
+
+import 'conformPage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                                 onTap: () {
                                   if (mobileController.text.isNotEmpty) {
                                     Navigator.of(context).push(
-                                        TransparentRoute(builder: (BuildContext context) => ConformPage(
+                                        TransparentRoute(builder: (BuildContext context) => ConfirmPhone(
                                             mobileController.text))
                                     );
                                   }
