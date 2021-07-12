@@ -21,26 +21,26 @@ class BottomNavigation extends StatelessWidget {
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.home),
         title: ("Home"),
-        activeColorPrimary: Color(0xff218698),
-        inactiveColorPrimary: Colors.deepPurpleAccent.shade100,
+        activeColorPrimary: Color(0xff56aee7),
+        inactiveColorPrimary: Color(0xff6a77d0),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.money_dollar_circle_fill),
         title: ("Contributions"),
-        activeColorPrimary: Color(0xff218698),
-        inactiveColorPrimary: Colors.deepPurpleAccent.shade100,
+        activeColorPrimary: Color(0xff56aee7),
+        inactiveColorPrimary: Color(0xff6a77d0),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.cart_fill),
         title: ("Requests"),
-        activeColorPrimary: Color(0xff218698),
-        inactiveColorPrimary: Colors.deepPurpleAccent.shade100,
+        activeColorPrimary: Color(0xff56aee7),
+        inactiveColorPrimary: Color(0xff6a77d0),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.menu),
         title: ("More"),
-        activeColorPrimary: Color(0xff218698),
-        inactiveColorPrimary: Colors.deepPurpleAccent.shade100,
+        activeColorPrimary: Color(0xff56aee7),
+        inactiveColorPrimary: Color(0xff6a77d0),
       )
     ];
   }

@@ -10,94 +10,93 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    int arrayindex;
-    final Size size = MediaQuery
-        .of(context)
-        .size;
-    return Scaffold(
-      appBar: AppBarWithBack(
-        height: 154,
-        title: "Notification",
-      ),
-      body: Container(
-        height: size.height,
-        color: Color(0xFFcee8f9),
-        child: Container(
-          child: ListView.builder(
-              itemBuilder: (context, index) {
-                arrayindex = index;
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: Column(
-                    children: <Widget>[
-                      ListView.builder(
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                              vertical: 8.0,
-                            ),
-                            child: Container(
-                                decoration: new BoxDecoration(
-                                    color: Color(0x99c6cbd1),
-                                    borderRadius:
-                                    BorderRadius.circular(13)),
-                                width: size.width,
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  textDirection: TextDirection.ltr,
-                                  children: [
-                                    new Flexible(
-                                        flex: 1,
-                                        fit: FlexFit.loose,
-                                        child:
-                                        new Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            child: Image(image: AssetImage(
-                                                'images/note.png'),)
-                                        )),
-                                    new Flexible(
-                                        flex: 3,
-                                        fit: FlexFit.tight,
-                                        child:
-                                        new Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            new Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 14),
-                                                alignment: Alignment.centerLeft,
-                                                child: Text( notificationsList[index].title  ,
-                                                  style: TextStyle(fontSize: 13,
-                                                      color: Colors.black45),textAlign: TextAlign.right,)
-                                            ),
-                                            new Container(
-                                                alignment: Alignment.centerLeft,
-                                                margin: EdgeInsets.only(
-                                                    left: 14,top: 6),
-                                                child: Text( notificationsList[index].notyBody ,
+    int arrayindex; final Size size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBarWithBack(
+          height: 154,
+          title: "Notification",
+        ),
+        body: Container(
+          height: size.height,
+          color: Color(0xFFcee8f9),
+          child: Container(
+            child: ListView.builder(
+                itemBuilder: (context, index) {
+                  arrayindex = index;
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    child: Column(
+                      children: <Widget>[
+                        ListView.builder(
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                                vertical: 8.0,
+                              ),
+                              child: Container(
+                                  decoration: new BoxDecoration(
+                                      color: Color(0x99c6cbd1),
+                                      borderRadius:
+                                      BorderRadius.circular(13)),
+                                  width: size.width,
+                                  child: new Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    textDirection: TextDirection.ltr,
+                                    children: [
+                                      new Flexible(
+                                          flex: 1,
+                                          fit: FlexFit.loose,
+                                          child:
+                                          new Container(
+                                              margin: EdgeInsets.only(right: 10),
+                                              child: Image(image: AssetImage(
+                                                  'images/note.png'),)
+                                          )),
+                                      new Flexible(
+                                          flex: 3,
+                                          fit: FlexFit.tight,
+                                          child:
+                                          new Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              new Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 14),
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text( notificationsList[index].title  ,
                                                     style: TextStyle(fontSize: 13,
-                                                        color: Colors.black45),textAlign: TextAlign.right)
-                                            ),
+                                                        color: Colors.black45),textAlign: TextAlign.right,)
+                                              ),
+                                              new Container(
+                                                  alignment: Alignment.centerLeft,
+                                                  margin: EdgeInsets.only(
+                                                      left: 14,top: 6),
+                                                  child: Text( notificationsList[index].notyBody ,
+                                                      style: TextStyle(fontSize: 13,
+                                                          color: Colors.black45),textAlign: TextAlign.right)
+                                              ),
 
 
-                                          ],))
+                                            ],))
 
-                                  ],)),
-                          );
-                        },
-                        itemCount: notificationsList.length,
-                        shrinkWrap: true,
-                        // todo comment this out and check the result
-                        physics: ClampingScrollPhysics(), // todo comment this out and check the result
-                      ),
-                    ],
-                  ),
-                );
-              },
-              itemCount: 1
+                                    ],)),
+                            );
+                          },
+                          itemCount: notificationsList.length,
+                          shrinkWrap: true,
+                          // todo comment this out and check the result
+                          physics: ClampingScrollPhysics(), // todo comment this out and check the result
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                itemCount: 1
+            ),
+
           ),
-
         ),
       ),
     );

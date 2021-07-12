@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                                 alignment: Alignment.bottomCenter,
                                 margin:
                                 EdgeInsets.only(left: 30, right: 30, top: 80),
-                                child: new TextField(
+                                child: TextField(
                                   keyboardType: TextInputType.number,
                                   controller: mobileController,
                                   decoration: new InputDecoration(
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                                           padding:
                                           EdgeInsets.symmetric(vertical: 10),
                                           child: Image(
-                                            image: AssetImage('images/phone.png'),
+                                            image: AssetImage('images/call.png'),
                                             height: 19,
                                             width: 15,
                                             fit: BoxFit.contain,

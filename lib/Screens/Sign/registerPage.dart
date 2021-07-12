@@ -74,7 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                             ))),
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 18,
                                     ),
                                   ),
@@ -105,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                             EdgeInsets.symmetric(vertical: 10),
                                             child: Image(
                                               image: AssetImage(
-                                                  'images/phone.png'),
+                                                  'images/call.png'),
                                               height: 19,
                                               width: 15,
                                               fit: BoxFit.contain,
@@ -115,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 18,
                                     ),
                                   ),
@@ -153,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                             ))),
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 18,
                                     ),
                                   ),
