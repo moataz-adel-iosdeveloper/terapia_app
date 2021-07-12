@@ -316,8 +316,6 @@ class _OrderDetailsState extends State<OrderDetails> {
               TextButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    //var email = emailController.text;
-                    //var message = messageController.text;
                     Navigator.of(context, rootNavigator: true).pop();
                   }
                 },

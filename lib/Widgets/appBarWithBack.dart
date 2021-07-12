@@ -20,13 +20,13 @@ class AppBarWithBack extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         color: Color(0xffcee8f9),
-        height:  130,
+        height:  100,
         width: MediaQuery.of(context).size.width,
       ),
       Container(), // Required some widget in between to float AppBar
       Positioned(
         // To take AppBar Size only
-        top: 130.0,
+        top: 100.0,
         left: 0.0,
         right: 0.0,
         child: AppBar(

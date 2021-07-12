@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                                 alignment: Alignment.bottomCenter,
                                 margin:
                                 EdgeInsets.only(left: 30, right: 30, top: 80),
-                                child: new TextField(
+                                child: TextField(
                                   keyboardType: TextInputType.number,
                                   controller: mobileController,
                                   decoration: new InputDecoration(

@@ -17,7 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             body: Container(
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(color: Colors.blueGrey),
+                decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .0)),
                 child:ListView(children: [new Column(
                   children: [
                     new Stack(
@@ -26,7 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 110,
                           width: 110,
                           alignment: Alignment.center,
-                          margin: EdgeInsets.only(top: 20),
                           child: ClipOval(
                             child:
                             Image.asset(
@@ -47,11 +46,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     new Container(
                       margin:
-                      EdgeInsets.only(right: 30, left: 30, top: 40),
+                      EdgeInsets.only(right: 30, left: 30, top: 10),
                       height: 52,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          color: Colors.white10),
+                          color: Color(0xffcee8f9)),
                       child: Row(
                         children: [
                           new Container(
@@ -60,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             alignment: Alignment.centerLeft,
                             child: Image(
                               image:
-                              AssetImage('images/man.png'),color: Colors.white,
+                              AssetImage('images/man.png'),color: Colors.blueGrey,
                             ),
                             margin:
                             EdgeInsets.only(left: 20, right: 14),
@@ -68,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           new Text(
                             "Client Name",
                             style: TextStyle(
-                                color: Colors.white, fontSize: 15),
+                                color: Colors.blueGrey, fontSize: 15),
                           )
                         ],
                       ),
@@ -79,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 52,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          color: Colors.white10),
+                          color: Color(0xffcee8f9)),
                       child: Row(
                         children: [
                           new Container(
@@ -88,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             alignment: Alignment.centerLeft,
                             child: Image(
                               image: AssetImage(
-                                  'images/phone.png'),color: Colors.white,
+                                  'images/call.png'),color: Colors.blueGrey,
                             ),
                             margin:
                             EdgeInsets.only(left: 20, right: 14),
@@ -96,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           new Text(
                             "Phone Number",
                             style: TextStyle(
-                                color: Colors.white, fontSize: 15),
+                                color: Colors.blueGrey, fontSize: 15),
                           )
                         ],
                       ),
@@ -107,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 52,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          color: Colors.white10),
+                          color: Color(0xffcee8f9)),
                       child: Row(
                         children: [
                           new Container(
@@ -116,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             alignment: Alignment.centerLeft,
                             child: Image(
                               image: AssetImage(
-                                  'images/mail.png'),color: Colors.white,
+                                  'images/mail.png'),color: Colors.blueGrey,
                             ),
                             margin:
                             EdgeInsets.only(left: 20, right: 14),
@@ -124,19 +123,18 @@ class _ProfilePageState extends State<ProfilePage> {
                           new Text(
                             "Email",
                             style: TextStyle(
-                                color: Colors.white, fontSize: 15),
+                                color: Colors.blueGrey, fontSize: 15),
                           )
                         ],
                       ),
                     ),
-
                     new Container(
                       margin:
                       EdgeInsets.only(right: 30, left: 30, top: 16),
                       height: 52,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          color: Colors.white10),
+                          color: Color(0xffcee8f9)),
                       child: Row(
                         children: [
                           new Container(
@@ -145,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             alignment: Alignment.centerLeft,
                             child: Image(
                               image: AssetImage(
-                                  'images/gift.png'),color: Colors.white,
+                                  'images/gift.png'),color: Colors.blueGrey,
                             ),
                             margin:
                             EdgeInsets.only(left: 20, right: 14),
@@ -153,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           new Text(
                             "BirthDate",
                             style: TextStyle(
-                                color: Colors.white, fontSize: 15),
+                                color: Colors.blueGrey, fontSize: 15),
                           )
                         ],
                       ),
@@ -164,7 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 52,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          color: Colors.white10),
+                          color: Color(0xffcee8f9)),
                       child: Row(
                         children: [
                           new Container(
@@ -173,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             alignment: Alignment.centerLeft,
                             child: Image(
                               image: AssetImage(
-                                  'images/flags.png'),color: Colors.white,
+                                  'images/flags.png'),color: Colors.blueGrey,
                             ),
                             margin:
                             EdgeInsets.only(left: 20, right: 14),
@@ -181,7 +179,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           new Text(
                             "National ID",
                             style: TextStyle(
-                                color: Colors.white, fontSize: 15),
+                                color: Colors.blueGrey, fontSize: 15),
                           )
                         ],
                       ),
@@ -190,7 +188,5 @@ class _ProfilePageState extends State<ProfilePage> {
                 )
                 ]))
         ));
-
-
   }
 }
