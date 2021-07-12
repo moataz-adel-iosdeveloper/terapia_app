@@ -71,6 +71,27 @@ flutter:
     - images/business_idea.png
     - images/medicines.png
     - images/about_us.png
+    - images/medication.jpeg
+    - images/medicine/1.jpg
+    - images/medicine/2.jpg
+    - images/medicine/3.jpg
+    - images/medicine/4.jpg
+    - images/medicine/5.jpg
+    - images/medicine/6.jpg
+    - images/medicine/7.jpg
+    - images/medicine/8.jpg
+    - images/medicine/9.jpg
+    - images/medicine/10.jpg
+    - images/medicine/11.jpg
+    - images/medicine/12.jpg
+    - images/medicine/13.jpg
+    - images/medicine/14.jpg
+    - images/medicine/15.jpg
+    - images/medicine/16.jpg
+    - images/medicine/17.jpg
+    - images/medicine/18.jpg
+    - images/medicine/19.jpg
+    - images/medicine/20.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

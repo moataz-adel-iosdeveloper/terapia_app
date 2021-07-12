@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                                           padding:
                                           EdgeInsets.symmetric(vertical: 10),
                                           child: Image(
-                                            image: AssetImage('images/phone.png'),
+                                            image: AssetImage('images/call.png'),
                                             height: 19,
                                             width: 15,
                                             fit: BoxFit.contain,

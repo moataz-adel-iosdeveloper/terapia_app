@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AppBarWithBack extends StatelessWidget implements PreferredSizeWidget {
+class AppBarWithOutBack extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final String title;
 
-  const AppBarWithBack({Key key, @required this.height, this.title})
+  const AppBarWithOutBack({Key key, @required this.height, this.title})
       : super(key: key);
 
   @override
@@ -43,12 +43,6 @@ class AppBarWithBack extends StatelessWidget implements PreferredSizeWidget {
                   fontWeight: FontWeight.bold),
               //textAlign: TextAlign.center,
             ),
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Color(0xffcee8f9)),
-            onPressed: () {
-              Navigator.pop(context);
-            },
           ),
         ),
       )
