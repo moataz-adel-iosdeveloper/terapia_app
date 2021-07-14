@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
+import 'package:terapia_app/Screens/MainPages/contributionPage.dart';
+import 'package:terapia_app/Screens/MenuPages/requestMedication.dart';
 import 'package:terapia_app/Screens/OrderDetails/requestDetails.dart';
 import 'package:terapia_app/Widgets/appBarWithOutBack.dart';
-
 
 class RequestPage extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class RequestPage extends StatefulWidget {
 }
 
 class _RequestPageState extends State<RequestPage> {
+  List<ContributionPageClass> _contributionPageClass = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +24,12 @@ class _RequestPageState extends State<RequestPage> {
           padding: const EdgeInsets.only(bottom: 15),
           child: ListView.builder(
             itemBuilder: (context, index) => _makeCard(context, index),
-            itemCount: 10,
+            itemCount: _contributionPageClass.length,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
           ),
         ));
   }
-
   Widget _makeCard(BuildContext context, int index) {
     return GestureDetector(
       child: Card(
@@ -42,7 +43,7 @@ class _RequestPageState extends State<RequestPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Image(
-                    image: AssetImage('images/medication.jpeg'),
+                    image: AssetImage("images/medicine/"+_contributionPageClass[index].image+".jpg"),
                     width: MediaQuery.of(context).size.width * 1.0,
                     height: 140,
                     fit: BoxFit.cover,
@@ -57,7 +58,7 @@ class _RequestPageState extends State<RequestPage> {
                         ),
                         Expanded(
                           child: Text(
-                            "SAPOFEN JUNIOR 100MG-5ML ",
+                            _contributionPageClass[index].name,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -83,7 +84,7 @@ class _RequestPageState extends State<RequestPage> {
                                 TextStyle(color: Colors.blueGrey, fontSize: 16),
                               ),
                               Text(
-                                "5 ",
+                                _contributionPageClass[index].quantity,
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -104,7 +105,7 @@ class _RequestPageState extends State<RequestPage> {
                                 TextStyle(color: Colors.blueGrey, fontSize: 16),
                               ),
                               Text(
-                                "tape ",
+                                _contributionPageClass[index].unit,
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -122,27 +123,18 @@ class _RequestPageState extends State<RequestPage> {
               ),
               Align(
                 child: Container(
-                  color: index  == 0
-                      ? Colors.red // deleted
-                      : index  == 1
+                  color: _contributionPageClass[index].status  == "Stopped"
+                      ? Colors.red // stopped
+                      : _contributionPageClass[index].status  == "Active"
                       ? Colors.green // active
-                      : index  == 2
+                      : _contributionPageClass[index].status  == "Pending"
                       ? Colors.teal // pending
-                      : index  == 3
+                      : _contributionPageClass[index].status  == "Completed"
                       ? Color(0xff6a77d0) // completed
                       : Colors.teal ,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      index == 0
-                          ? "Deleted" // deleted
-                          : index  == 1
-                          ? "Active" // active
-                          : index  == 2
-                          ? "Pending" // pending
-                          : index  == 3
-                          ? "Completed" // completed
-                          : "Pending" ,
+                    child: Text(_contributionPageClass[index].status,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
@@ -157,8 +149,37 @@ class _RequestPageState extends State<RequestPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => RequestDetails()));
+                builder: (context) => RequestDetails(model: _contributionPageClass[index],)));
       },
     );
   }
+  void updateView() {
+    setState(() {
+      _contributionPageClass = makeRequestPageClass();
+    });
+  }
+  void initState() {
+    super.initState();
+    updateView();
+  }
+}
+List<ContributionPageClass> makeRequestPageClass() {
+  List<Medicine> _medicineList = dataMedicine();
+  List<MedicineType> _type = dataMedicineType();
+  List<ContributionPageClass> _mainScreenClass = [];
+  int uniIndex = 0;
+  int statusIndex = 0;
+  for(int x = 19 ; x > 9 ; x--) {
+    _mainScreenClass.add(ContributionPageClass(_medicineList[x].id, _medicineList[x].name, _medicineList[x].image, x.toString()
+        , _type[uniIndex].name,statusIndex == 0 ? "Stopped": statusIndex == 1 ? "Active" : statusIndex == 2 ? "Pending" : "Completed"));
+    uniIndex++;
+    statusIndex++;
+    if (uniIndex == _type.length - 1) {
+      uniIndex = 0;
+    }
+    if (statusIndex == 3) {
+      statusIndex = 0;
+    }
+  }
+  return _mainScreenClass;
 }

@@ -4,7 +4,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart' as picker;
 import 'package:flutter/services.dart';
-import 'package:terapia_app/Screens/MenuPages/requestMedication.dart';
 import 'package:terapia_app/Widgets/appBarWithBack.dart';
 
 class AddPharmaceutical extends StatefulWidget {
@@ -24,7 +23,7 @@ class _AddPharmaceuticalState extends State<AddPharmaceutical> {
         child: Scaffold(
             appBar: AppBarWithBack(
               height: 154,
-              title: "Add Medication",
+              title: "Add Pharmaceutical",
             ),
             body: Container(
               decoration: BoxDecoration(color: Color(0xFFcee8f9)),
@@ -318,5 +317,21 @@ class _AddPharmaceuticalState extends State<AddPharmaceutical> {
       );
     }
     return items;
+  }
+}
+class Clients {
+  int id;
+  String name;
+  Clients(this.id, this.name);
+  Clients.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
   }
 }

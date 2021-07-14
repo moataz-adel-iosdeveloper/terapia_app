@@ -12,22 +12,15 @@ class RequestMedication extends StatefulWidget {
   @override
   _RequestMedicationState createState() => _RequestMedicationState();
 }
-
-List<Medicine> medicineLista = [];
-List<String> _DeliveryOption = ["to by agreed later" , "Delivery to me " , "Receive it from anywhere"];
+List<Medicine> _medicineList = dataMedicine();
+List<MedicineType> _type = dataMedicineType();
+List<SelectedMedicine> _selectedMedicine = [];
+List<String> _deliveryOption = ["to by agreed later" , "Delivery to me " , "Receive it from anywhere"];
 String _deliveryMethod ;
 
 class _RequestMedicationState extends State<RequestMedication> {
 
-  //TextEditingController _quantityText = new TextEditingController();
   TextEditingController messageController = new TextEditingController();
-  @override
-  void initState() {
-    //medicineLista.add(new Medicine(1, "Panadol", "Capsule", 1));
-    //medicineLista.add(new Medicine(1, "profen", "Capsule", 2));
-    //medicineLista.add(new Medicine(0, 'name', 'type', 3));
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +39,7 @@ class _RequestMedicationState extends State<RequestMedication> {
                       children: [
                         GestureDetector(
                             onTap: () {
-                              AddMedicineDialog(context, '');
+                              addMedicineDialog(context, '');
                             },
                             child: Row(
                                 textDirection: TextDirection.ltr,
@@ -69,7 +62,7 @@ class _RequestMedicationState extends State<RequestMedication> {
                         ListView.builder(
                             shrinkWrap: true,
                             physics: ScrollPhysics(),
-                            itemCount: medicineLista.length,
+                            itemCount: _selectedMedicine.length,
                             itemBuilder: (context, index) {
                               return Container(
                                 key: UniqueKey(),
@@ -90,8 +83,7 @@ class _RequestMedicationState extends State<RequestMedication> {
                                               padding: EdgeInsets.all(8),
                                               alignment: Alignment.center,
                                               child: Image(
-                                                image: AssetImage(
-                                                    'images/logo.png'),
+                                                image: AssetImage("images/medicine/"+_selectedMedicine[index].image+".jpg"),
                                               ),
                                             )),
                                         Expanded(
@@ -105,7 +97,7 @@ class _RequestMedicationState extends State<RequestMedication> {
                                                 Container(
                                                     margin: EdgeInsets.all(6),
                                                     child: Text(
-                                                      medicineLista[index].name,
+                                                      _selectedMedicine[index].name,
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 18),
@@ -113,7 +105,7 @@ class _RequestMedicationState extends State<RequestMedication> {
                                                 Container(
                                                     margin: EdgeInsets.all(2),
                                                     child: Text(
-                                                      medicineLista[index].type,
+                                                      _selectedMedicine[index].type,
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 18),
@@ -121,9 +113,8 @@ class _RequestMedicationState extends State<RequestMedication> {
                                                 Container(
                                                     margin: EdgeInsets.all(3),
                                                     child: Text(
-                                                      medicineLista[index]
-                                                          .quantity
-                                                          .toString(),
+                                                      _selectedMedicine[index]
+                                                          .quantity,
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 18),
@@ -133,10 +124,8 @@ class _RequestMedicationState extends State<RequestMedication> {
                                       ],
                                     ),
                                     Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Flexible(
                                               flex: 1,
@@ -144,9 +133,7 @@ class _RequestMedicationState extends State<RequestMedication> {
                                               child: GestureDetector(
                                                 onTap: () {
                                                   setState(() {
-                                                    medicineLista =
-                                                        List.from(medicineLista)
-                                                          ..removeAt(index);
+                                                    _selectedMedicine = List.from(_selectedMedicine)..removeAt(index);
                                                   });
                                                 },
                                                 child: Container(
@@ -179,10 +166,7 @@ class _RequestMedicationState extends State<RequestMedication> {
                                               fit: FlexFit.loose,
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  EditMedicineDialog(
-                                                      context,
-                                                      medicineLista[index],
-                                                      index);
+                                                  editMedicineDialog(context, index);
                                                 },
                                                 child: Container(
                                                     padding: EdgeInsets.all(7),
@@ -264,33 +248,6 @@ class _RequestMedicationState extends State<RequestMedication> {
                                     ))
                               ])),
                     ),
-                    // Container(
-                    //   //alignment: Alignment.bottomCenter,
-                    //   margin: EdgeInsets.only(left: 20, right: 20, top: 10,bottom: 10),
-                    //   child: TextField(
-                    //     keyboardType: TextInputType.number,
-                    //     controller: _quantityText,
-                    //     decoration: new InputDecoration(
-                    //         border: new OutlineInputBorder(
-                    //           borderRadius: new BorderRadius.all(new Radius.circular(10)),
-                    //           borderSide: BorderSide(
-                    //               width: 0, style: BorderStyle.solid),
-                    //         ),
-                    //         hintText: 'quantity',
-                    //         fillColor: Colors.white,
-                    //         filled: true,
-                    //         hintStyle: new TextStyle(color: Colors.blueGrey),
-                    //     ),
-                    //     textAlign: TextAlign.start,
-                    //     inputFormatters: <TextInputFormatter>[
-                    //       FilteringTextInputFormatter.digitsOnly
-                    //     ],
-                    //     style: TextStyle(
-                    //       color: Colors.black,
-                    //       fontSize: 15,
-                    //     ),
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.only(left: 20,right: 20),
                       child: Container(
@@ -303,7 +260,7 @@ class _RequestMedicationState extends State<RequestMedication> {
                             right: 10,
                             left: 10,
                           ),
-                          child: _DeliveryOption != null
+                          child: _deliveryOption != null
                               ? DropdownButtonHideUnderline(
                             child: DropdownButton(
                               isExpanded: true,
@@ -318,7 +275,7 @@ class _RequestMedicationState extends State<RequestMedication> {
                                   _deliveryMethod = newValue;
                                 });
                               },
-                              items: _DeliveryOption.map((String dropdownItems) {
+                              items: _deliveryOption.map((String dropdownItems) {
                                 return DropdownMenuItem<String>(
                                   child: Text(dropdownItems),
                                   value: dropdownItems,
@@ -380,7 +337,6 @@ class _RequestMedicationState extends State<RequestMedication> {
   var _paths, _loadingPath = false;
   var _directoryPath, _pickingType, _fileName = '';
   picker.FilePickerResult result;
-
   void _openFileExplorer() async {
     setState(() => _loadingPath = true);
     try {
@@ -411,26 +367,11 @@ class _RequestMedicationState extends State<RequestMedication> {
           : '';
     });
   }
-
   var imagePath;
-
-  AddMedicineDialog(BuildContext context, String message) {
-    TypeList.clear();
-    medicineList.clear();
-    makeupList.clear();
-    TypeList.add(new Clients(1, 'Medicine'));
-    TypeList.add(new Clients(2, 'Makeup'));
-
-    medicineList.add(new Clients(1, 'Panadol'));
-    medicineList.add(new Clients(2, 'Profen'));
-
-    makeupList.add(new Clients(1, 'iShadow'));
-    makeupList.add(new Clients(2, 'Eye Liner'));
-
-    _typeDropdownMenuItems = buildDropDownMenuItems(TypeList);
-    _nameDropdownMenuItems = buildDropDownMenuItems(medicineList);
-    _typeSelectedItem = TypeList[0];
-    _nameSelectedItem = medicineList[0];
+  addMedicineDialog(BuildContext context, String message) {
+    MedicineType _medicineTypeSelected ;
+    Medicine _medicineSelected ;
+    int _count = 1;
     return showDialog(
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
@@ -455,40 +396,34 @@ class _RequestMedicationState extends State<RequestMedication> {
                     Expanded(
                         flex: 4,
                         child: Container(
-                            height: 30,
+                            //height: 30,
                             alignment: Alignment.centerLeft,
                             decoration: new BoxDecoration(
-                              color: Colors.grey,
+                              color: Color(0xffcee8f9),
                               borderRadius:
-                                  new BorderRadius.all(Radius.circular(12.0)),
+                              new BorderRadius.all(Radius.circular(12.0)),
                               border: Border.all(
                                   width: 0.6,
                                   color: Colors.grey,
                                   style: BorderStyle.solid),
                             ),
-                            margin:
-                                EdgeInsets.only(left: 7, right: 10, top: 10),
+                            margin: EdgeInsets.only(left: 7, right: 10, top: 10),
+                            padding: EdgeInsets.only(left: 7),
                             child: Directionality(
                                 textDirection: TextDirection.ltr,
                                 child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<Clients>(
+                                  child: DropdownButton<MedicineType>(
                                       isExpanded: true,
-                                      value: _typeSelectedItem,
-                                      items: _typeDropdownMenuItems,
+                                      value: _medicineTypeSelected,
+                                      items:  _type.map((MedicineType dropdownItems) {
+                                        return DropdownMenuItem<MedicineType>(
+                                          child: Text(dropdownItems.name),
+                                          value: dropdownItems,
+                                        );
+                                      }).toList(),
                                       onChanged: (value) {
                                         setState(() {
-                                          _typeSelectedItem = value;
-                                          if (value.id == 2) {
-                                            _nameDropdownMenuItems =
-                                                buildDropDownMenuItems(
-                                                    makeupList);
-                                            _nameSelectedItem = makeupList[0];
-                                          } else {
-                                            _nameDropdownMenuItems =
-                                                buildDropDownMenuItems(
-                                                    medicineList);
-                                            _nameSelectedItem = medicineList[0];
-                                          }
+                                          _medicineTypeSelected = value;
                                         });
                                       }),
                                 )))),
@@ -510,29 +445,34 @@ class _RequestMedicationState extends State<RequestMedication> {
                     Expanded(
                         flex: 4,
                         child: Container(
-                            height: 30,
+                            //height: 30,
                             alignment: Alignment.centerLeft,
                             decoration: new BoxDecoration(
-                              color: Colors.grey,
+                              color: Color(0xffcee8f9),
                               borderRadius:
-                                  new BorderRadius.all(Radius.circular(12.0)),
+                              new BorderRadius.all(Radius.circular(12.0)),
                               border: Border.all(
                                   width: 0.6,
                                   color: Colors.grey,
                                   style: BorderStyle.solid),
                             ),
-                            margin:
-                                EdgeInsets.only(left: 7, right: 10, top: 10),
+                            margin: EdgeInsets.only(left: 7, right: 10, top: 10),
+                            padding: EdgeInsets.only(left: 7),
                             child: Directionality(
                                 textDirection: TextDirection.ltr,
                                 child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<Clients>(
+                                  child: DropdownButton<Medicine>(
                                       isExpanded: true,
-                                      value: _nameSelectedItem,
-                                      items: _nameDropdownMenuItems,
+                                      value: _medicineSelected,
+                                      items: _medicineList.map((Medicine dropdownItems) {
+                                        return DropdownMenuItem<Medicine>(
+                                          child: Text(dropdownItems.name),
+                                          value: dropdownItems,
+                                        );
+                                      }).toList(),
                                       onChanged: (value) {
                                         setState(() {
-                                          _nameSelectedItem = value;
+                                          _medicineSelected = value;
                                         });
                                       }),
                                 )))),
@@ -544,8 +484,8 @@ class _RequestMedicationState extends State<RequestMedication> {
                     GestureDetector(
                         onTap: () {
                           setState(() {
-                            if (count != 0) {
-                              count = count - 1;
+                            if (_count != 1) {
+                              _count = _count - 1;
                             }
                           });
                         },
@@ -557,22 +497,22 @@ class _RequestMedicationState extends State<RequestMedication> {
                         padding: EdgeInsets.all(7),
                         margin: EdgeInsets.only(top: 10, right: 9, left: 9),
                         decoration: new BoxDecoration(
-                          color: Colors.grey,
+                          color: Color(0xffcee8f9),
                           borderRadius:
-                              new BorderRadius.all(Radius.circular(12.0)),
+                          new BorderRadius.all(Radius.circular(12.0)),
                           border: Border.all(
                               width: 0.6,
                               color: Colors.grey,
                               style: BorderStyle.solid),
                         ),
                         child: Text(
-                          count.toString(),
+                          _count.toString(),
                           style: TextStyle(fontSize: 16, color: Colors.black),
                         )),
                     GestureDetector(
                         onTap: () {
                           setState(() {
-                            count = count + 1;
+                            _count = _count + 1;
                           });
                         },
                         child: Container(
@@ -581,17 +521,19 @@ class _RequestMedicationState extends State<RequestMedication> {
                         )),
                   ],
                 ),
-                new GestureDetector(
+                GestureDetector(
                   onTap: () {
-                    if (count > 0) {
+                    if (_count > 0) {
                       updateView();
                       setState(() {
-                        medicineLista = List.from(medicineLista)
-                          ..add(new Medicine(
-                              _nameSelectedItem.id,
-                              _nameSelectedItem.name,
-                              _typeSelectedItem.name,
-                              count));
+                        _selectedMedicine.add(SelectedMedicine(_medicineSelected.name, _medicineSelected.image,
+                            _count.toString(), _medicineTypeSelected.name, _medicineSelected.id, _medicineTypeSelected.id));
+                        // medicineLista = List.from(medicineLista)
+                        //   ..add(new Medicine(
+                        //       _nameSelectedItem.id,
+                        //       _nameSelectedItem.name,
+                        //       _typeSelectedItem.name,
+                        //       count));
                       });
                       Navigator.pop(context);
                     } else {
@@ -608,9 +550,9 @@ class _RequestMedicationState extends State<RequestMedication> {
                     height: 34,
                     margin: EdgeInsets.only(right: 60, left: 60, top: 13),
                     decoration: new BoxDecoration(
-                        color: Colors.grey,
+                        color: Color(0xffcee8f9),
                         borderRadius:
-                            new BorderRadius.all(Radius.circular(12.0))),
+                        new BorderRadius.all(Radius.circular(12.0))),
                     child: Text(
                       "Add",
                       textAlign: TextAlign.center,
@@ -625,43 +567,7 @@ class _RequestMedicationState extends State<RequestMedication> {
         },
         context: context);
   }
-
-  EditMedicineDialog(BuildContext context, Medicine medicine, int index) {
-    TypeList.clear();
-    medicineList.clear();
-    makeupList.clear();
-    TypeList.add(new Clients(1, 'Medicine'));
-    TypeList.add(new Clients(2, 'Makeup'));
-
-    medicineList.add(new Clients(1, 'Panadol'));
-    medicineList.add(new Clients(2, 'Profen'));
-
-    makeupList.add(new Clients(1, 'iShadow'));
-    makeupList.add(new Clients(2, 'Eye Liner'));
-    _typeDropdownMenuItems = buildDropDownMenuItems(TypeList);
-
-    if (medicine.type == 'Medicine') {
-      _typeSelectedItem = TypeList[0];
-
-      for (int i = 0; i < medicineList.length; i++) {
-        if (medicine.name == medicineList[i].name) {
-          _nameDropdownMenuItems = buildDropDownMenuItems(medicineList);
-          _nameSelectedItem = medicineList[i];
-
-          break;
-        }
-      }
-    } else {
-      _typeSelectedItem = TypeList[1];
-
-      for (int i = 0; i < makeupList.length; i++) {
-        if (medicine.name == makeupList[i].name) {
-          _nameDropdownMenuItems = buildDropDownMenuItems(makeupList);
-          _nameSelectedItem = makeupList[i];
-          break;
-        }
-      }
-    }
+  editMedicineDialog(BuildContext context, int index) {
     return showDialog(
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
@@ -686,40 +592,34 @@ class _RequestMedicationState extends State<RequestMedication> {
                     Expanded(
                         flex: 4,
                         child: Container(
-                            height: 30,
                             alignment: Alignment.centerLeft,
                             decoration: new BoxDecoration(
-                              color: Colors.grey,
+                              color: Color(0xffcee8f9),
                               borderRadius:
-                                  new BorderRadius.all(Radius.circular(12.0)),
+                              new BorderRadius.all(Radius.circular(12.0)),
                               border: Border.all(
                                   width: 0.6,
-                                  color: Colors.grey,
+                                  color: Color(0xff6a77d0),
                                   style: BorderStyle.solid),
                             ),
-                            margin:
-                                EdgeInsets.only(left: 7, right: 10, top: 10),
+                            margin: EdgeInsets.only(left: 7, right: 10, top: 10),
+                            padding: EdgeInsets.only(left: 7),
                             child: Directionality(
                                 textDirection: TextDirection.ltr,
                                 child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<Clients>(
+                                  child: DropdownButton<MedicineType>(
                                       isExpanded: true,
-                                      value: _typeSelectedItem,
-                                      items: _typeDropdownMenuItems,
+                                      value: _type[_selectedMedicine[index].typeIndex],
+                                      items: _type.map((MedicineType dropdownItems) {
+                                        return DropdownMenuItem<MedicineType>(
+                                          child: Text(dropdownItems.name),
+                                          value: dropdownItems,
+                                        );
+                                      }).toList(),
                                       onChanged: (value) {
                                         setState(() {
-                                          _typeSelectedItem = value;
-                                          if (value.id == 2) {
-                                            _nameDropdownMenuItems =
-                                                buildDropDownMenuItems(
-                                                    makeupList);
-                                            _nameSelectedItem = makeupList[0];
-                                          } else {
-                                            _nameDropdownMenuItems =
-                                                buildDropDownMenuItems(
-                                                    medicineList);
-                                            _nameSelectedItem = medicineList[0];
-                                          }
+                                          _selectedMedicine[index].typeIndex = value.id;
+                                          _selectedMedicine[index].type = value.name;
                                         });
                                       }),
                                 )))),
@@ -741,29 +641,36 @@ class _RequestMedicationState extends State<RequestMedication> {
                     Expanded(
                         flex: 4,
                         child: Container(
-                            height: 30,
+                            //height: 30,
                             alignment: Alignment.centerLeft,
                             decoration: new BoxDecoration(
-                              color: Colors.grey,
+                              color: Color(0xffcee8f9),
                               borderRadius:
-                                  new BorderRadius.all(Radius.circular(12.0)),
+                              new BorderRadius.all(Radius.circular(12.0)),
                               border: Border.all(
                                   width: 0.6,
                                   color: Colors.grey,
                                   style: BorderStyle.solid),
                             ),
-                            margin:
-                                EdgeInsets.only(left: 7, right: 10, top: 10),
+                            margin: EdgeInsets.only(left: 7, right: 10, top: 10),
+                            padding: EdgeInsets.only(left: 7),
                             child: Directionality(
                                 textDirection: TextDirection.ltr,
                                 child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<Clients>(
+                                  child: DropdownButton<Medicine>(
                                       isExpanded: true,
-                                      value: _nameSelectedItem,
-                                      items: _nameDropdownMenuItems,
+                                      value: _medicineList[_selectedMedicine[index].medicineIndex],
+                                      items: _medicineList.map((Medicine dropdownItems) {
+                                        return DropdownMenuItem<Medicine>(
+                                          child: Text(dropdownItems.name),
+                                          value: dropdownItems,
+                                        );
+                                      }).toList(),
                                       onChanged: (value) {
                                         setState(() {
-                                          _nameSelectedItem = value;
+                                          _selectedMedicine[index].medicineIndex = value.id;
+                                          _selectedMedicine[index].image = value.image;
+                                          _selectedMedicine[index].name = value.name;
                                         });
                                       }),
                                 )))),
@@ -775,8 +682,10 @@ class _RequestMedicationState extends State<RequestMedication> {
                     GestureDetector(
                         onTap: () {
                           setState(() {
-                            if (count != 0) {
+                            int count = int.parse(_selectedMedicine[index].quantity);
+                            if (count != 1) {
                               count = count - 1;
+                              _selectedMedicine[index].quantity = count.toString();
                             }
                           });
                         },
@@ -788,22 +697,24 @@ class _RequestMedicationState extends State<RequestMedication> {
                         padding: EdgeInsets.all(7),
                         margin: EdgeInsets.only(top: 10, right: 9, left: 9),
                         decoration: new BoxDecoration(
-                          color: Colors.grey,
+                          color: Color(0xffcee8f9),
                           borderRadius:
-                              new BorderRadius.all(Radius.circular(12.0)),
+                          new BorderRadius.all(Radius.circular(12.0)),
                           border: Border.all(
                               width: 0.6,
                               color: Colors.grey,
                               style: BorderStyle.solid),
                         ),
                         child: Text(
-                          count.toString(),
+                          _selectedMedicine[index].quantity,
                           style: TextStyle(fontSize: 16, color: Colors.black),
                         )),
                     GestureDetector(
                         onTap: () {
                           setState(() {
+                            int count = int.parse(_selectedMedicine[index].quantity);
                             count = count + 1;
+                            _selectedMedicine[index].quantity = count.toString();
                           });
                         },
                         child: Container(
@@ -814,9 +725,6 @@ class _RequestMedicationState extends State<RequestMedication> {
                 ),
                 new GestureDetector(
                   onTap: () {
-                    medicineLista[index].name = _nameSelectedItem.name;
-                    medicineLista[index].type = _typeSelectedItem.name;
-                    medicineLista[index].quantity = count;
                     updateView();
                     Navigator.pop(context);
                   },
@@ -826,9 +734,9 @@ class _RequestMedicationState extends State<RequestMedication> {
                     height: 34,
                     margin: EdgeInsets.only(right: 60, left: 60, top: 13),
                     decoration: new BoxDecoration(
-                        color: Colors.grey,
+                        color: Color(0xffcee8f9),
                         borderRadius:
-                            new BorderRadius.all(Radius.circular(12.0))),
+                        new BorderRadius.all(Radius.circular(12.0))),
                     child: Text(
                       "Edit",
                       textAlign: TextAlign.center,
@@ -845,42 +753,11 @@ class _RequestMedicationState extends State<RequestMedication> {
   }
 }
 
-int count = 0;
-List<DropdownMenuItem<Clients>> _typeDropdownMenuItems = [];
-List<DropdownMenuItem<Clients>> _nameDropdownMenuItems = [];
-Clients _typeSelectedItem;
-Clients _nameSelectedItem;
-List<Clients> TypeList = [];
-List<Clients> medicineList = [];
-List<Clients> makeupList = [];
-
-List<DropdownMenuItem<Clients>> buildDropDownMenuItems(List listItems) {
-  List<DropdownMenuItem<Clients>> items = [];
-  for (Clients listItem in listItems) {
-    items.add(
-      DropdownMenuItem(
-        child: Container(
-            padding: EdgeInsets.only(right: 10, left: 20),
-            margin: EdgeInsets.only(left: 10),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              listItem.name,
-              style: TextStyle(fontSize: 16),
-            )),
-        value: listItem,
-      ),
-    );
-  }
-  return items;
-}
-
-class Clients {
+class MedicineType {
   int id;
   String name;
-
-  Clients(this.id, this.name);
-
-  Clients.fromJson(Map<String, dynamic> json) {
+  MedicineType(this.id, this.name);
+  MedicineType.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }
@@ -892,28 +769,83 @@ class Clients {
     return data;
   }
 }
-
 class Medicine {
   int id;
   String name;
-  String type;
-  int quantity;
+  String image;
 
-  Medicine(this.id, this.name, this.type, this.quantity);
-
+  Medicine(this.id, this.name , this.image);
   Medicine.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    type = json['type'];
-    quantity = json['quantity'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['type'] = this.type;
-    data['quantity'] = this.quantity;
+    data['image'] = this.image;
     return data;
   }
+}
+class SelectedMedicine {
+  String name;
+  String image;
+  String quantity;
+  String type;
+  int medicineIndex;
+  int typeIndex;
+  SelectedMedicine(this.name, this.image , this.quantity , this.type, this.medicineIndex,this.typeIndex);
+  SelectedMedicine.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    image = json['image'];
+    quantity = json['quantity'];
+    type = json['type'];
+    medicineIndex = json['medicineIndex'];
+    typeIndex = json['typeIndex'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['image'] = this.image;
+    data['quantity'] = this.quantity;
+    data['type'] = this.type;
+    data['medicineIndex'] = this.medicineIndex;
+    data['typeIndex'] = this.typeIndex;
+    return data;
+  }
+}
+List<MedicineType> dataMedicineType() {
+  MedicineType t0 = MedicineType(0 , "Tap");
+  MedicineType t1 = MedicineType(1 , "Injection" );
+  MedicineType t2 = MedicineType(2 , "Box");
+  MedicineType t3 = MedicineType(3 , "Sparkling");
+  MedicineType t4 = MedicineType(4 , "Cream");
+  MedicineType t5 = MedicineType(5 , "Drinks");
+  MedicineType t6 = MedicineType(6 , "droplet");
+  return  [t0,t1,t2,t3,t4,t5,t6];
+}
+List<Medicine> dataMedicine() {
+  Medicine t0 = Medicine(0 , "ALPHINTERN 30/TAB" , "1");
+  Medicine t1 = Medicine(1 , "CONCOR 5 PLUS 30/TAB" , "2");
+  Medicine t2 = Medicine(2 , "PRISOLINE EYE DROPS 15ML" , "3");
+  Medicine t3 = Medicine(3 , "DIMRA 20 TAB" , "4");
+  Medicine t4 = Medicine(4 , "GALVUS MET 50/850MG 30/TAB" , "5");
+  Medicine t5 = Medicine(5 , "DIAMICRON 30MR 30/TAB" , "6");
+  Medicine t6 = Medicine(6 , "BRUFEN 600MG 30 TAB" , "7");
+  Medicine t7 = Medicine(7 , "ULTI-PLUS SOLUTION 240ML" , "8");
+  Medicine t8 = Medicine(8 , "Janumet 50/1000mg" , "9");
+  Medicine t9 = Medicine(9 , "PANADOL ADVANCE BLUE 24 TAB" , "10");
+  Medicine t10 = Medicine(10 , "VIDROP 2800IU/ML ORAL DROPS 15ML" , "11");
+  Medicine t11 = Medicine(11 , "URIVIN 10 SACHETS" , "12");
+  Medicine t12 = Medicine(12 , "BECOZYME 12/AMP 2ML" , "13");
+  Medicine t13 = Medicine(13 , "TAVANIC 500MG/100ML 1 VIAL" , "14");
+  Medicine t14 = Medicine(14 , "PRAVOTIN 30/SACH" , "15");
+  Medicine t15 = Medicine(15 , "DUPHALAC SYRUP 200ML " , "16");
+  Medicine t16 = Medicine(16 , "HIBIOTIC 1000MG 16 TAB" , "17");
+  Medicine t17 = Medicine(17 , "MAXICAL 30 TAB" , "18");
+  Medicine t18 = Medicine(18 , "MEBO 0.25% OINT 15GM" , "19");
+  Medicine t19 = Medicine(19 , "DICLAC 150MG ID 10/TAB" , "20");
+  return  [t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17,t18,t19];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
+import 'package:terapia_app/Screens/MenuPages/requestMedication.dart';
 import 'package:terapia_app/Screens/OrderDetails/contributionDetails.dart';
 import 'package:terapia_app/Widgets/appBarWithOutBack.dart';
 
@@ -10,6 +11,7 @@ class ContributionPage extends StatefulWidget {
 }
 
 class _ContributionPageState extends State<ContributionPage> {
+  List<ContributionPageClass> _contributionPageClass = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,13 +23,12 @@ class _ContributionPageState extends State<ContributionPage> {
           padding: const EdgeInsets.only(bottom: 15),
           child: ListView.builder(
             itemBuilder: (context, index) => _makeCard(context, index),
-            itemCount: 10,
+            itemCount: _contributionPageClass.length,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
           ),
         ));
   }
-
   Widget _makeCard(BuildContext context, int index) {
     return GestureDetector(
       child: Card(
@@ -41,7 +42,7 @@ class _ContributionPageState extends State<ContributionPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Image(
-                    image: AssetImage('images/medication.jpeg'),
+                    image: AssetImage("images/medicine/"+_contributionPageClass[index].image+".jpg"),
                     width: MediaQuery.of(context).size.width * 1.0,
                     height: 140,
                     fit: BoxFit.cover,
@@ -56,7 +57,7 @@ class _ContributionPageState extends State<ContributionPage> {
                         ),
                         Expanded(
                           child: Text(
-                            "SAPOFEN JUNIOR 100MG-5ML ",
+                            _contributionPageClass[index].name,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -82,7 +83,7 @@ class _ContributionPageState extends State<ContributionPage> {
                                 TextStyle(color: Colors.blueGrey, fontSize: 16),
                               ),
                               Text(
-                                "5 ",
+                                _contributionPageClass[index].quantity,
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -103,7 +104,7 @@ class _ContributionPageState extends State<ContributionPage> {
                                 TextStyle(color: Colors.blueGrey, fontSize: 16),
                               ),
                               Text(
-                                "tape ",
+                                _contributionPageClass[index].unit,
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -117,32 +118,22 @@ class _ContributionPageState extends State<ContributionPage> {
                       ],
                     ),
                   ),
-
                 ],
               ),
               Align(
                 child: Container(
-                  color: index  == 0
+                  color: _contributionPageClass[index].status  == "Stopped"
                       ? Colors.red // stopped
-                      : index  == 1
+                      : _contributionPageClass[index].status  == "Active"
                       ? Colors.green // active
-                      : index  == 2
+                      : _contributionPageClass[index].status  == "Pending"
                       ? Colors.teal // pending
-                      : index  == 3
+                      : _contributionPageClass[index].status  == "Completed"
                       ? Color(0xff6a77d0) // completed
                       : Colors.teal ,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      index == 0
-                          ? "Stopped" // stopped
-                          : index  == 1
-                          ? "Active" // active
-                          : index  == 2
-                          ? "Pending" // pending
-                          : index  == 3
-                          ? "Completed" // completed
-                          : "Pending" , // pending
+                    child: Text(_contributionPageClass[index].status , // pending
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
@@ -157,8 +148,64 @@ class _ContributionPageState extends State<ContributionPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ContributionDetails()));
+                builder: (context) => ContributionDetails(model: _contributionPageClass[index],)));
       },
     );
   }
+  void updateView() {
+    setState(() {
+      _contributionPageClass = makeContributionPageClass();
+    });
+  }
+  void initState() {
+    super.initState();
+    updateView();
+  }
+}
+class ContributionPageClass {
+  int id;
+  String name;
+  String image;
+  String quantity;
+  String unit;
+  String status;
+  ContributionPageClass(this.id, this.name,this.image,this.quantity,this.unit,this.status);
+  ContributionPageClass.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+    quantity = json['quantity'];
+    unit = json['unit'];
+    status = json['status'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['image'] = this.image;
+    data['quantity'] = this.quantity;
+    data['unit'] = this.unit;
+    data['status'] = this.status;
+    return data;
+  }
+}
+List<ContributionPageClass> makeContributionPageClass() {
+  List<Medicine> _medicineList = dataMedicine();
+  List<MedicineType> _type = dataMedicineType();
+  List<ContributionPageClass> _mainScreenClass = [];
+  int uniIndex = 0;
+  int statusIndex = 0;
+  for(int x = 5 ; x < 15 ; x++) {
+    _mainScreenClass.add(ContributionPageClass(_medicineList[x].id, _medicineList[x].name, _medicineList[x].image, x.toString()
+        , _type[uniIndex].name,statusIndex == 0 ? "Stopped": statusIndex == 1 ? "Active" : statusIndex == 2 ? "Pending" : "Completed"));
+    uniIndex++;
+    statusIndex++;
+    if (uniIndex == _type.length - 1) {
+      uniIndex = 0;
+    }
+    if (statusIndex == 3) {
+      statusIndex = 0;
+    }
+  }
+  return _mainScreenClass;
 }

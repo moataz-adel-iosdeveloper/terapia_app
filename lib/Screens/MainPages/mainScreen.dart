@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:terapia_app/Screens/MenuPages/requestMedication.dart';
 import 'package:terapia_app/Screens/OrderDetails/orderDetails.dart';
 import 'package:terapia_app/Widgets/mainAppBar.dart';
 
@@ -10,6 +11,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  List<MainScreenClass> _mainScreenClass = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +23,12 @@ class _MainScreenState extends State<MainScreen> {
           padding: const EdgeInsets.only(bottom: 15),
           child: ListView.builder(
             itemBuilder: (context, index) => _makeCard(context, index),
-            itemCount: 10,
+            itemCount: _mainScreenClass.length,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
           ),
         ));
   }
-
   Widget _makeCard(BuildContext context, int index) {
     return GestureDetector(
       child: Card(
@@ -40,8 +42,9 @@ class _MainScreenState extends State<MainScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Image(
-                    image: AssetImage('images/medication.jpeg'),
+                    image: AssetImage("images/medicine/"+_mainScreenClass[index].image+".jpg"),
                     width: MediaQuery.of(context).size.width * 1.0,
+                    height: 160,
                     fit: BoxFit.cover,
                   ),
                   Padding(
@@ -54,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         Expanded(
                           child: Text(
-                            "SAPOFEN JUNIOR 100MG-5ML ",
+                            _mainScreenClass[index].name,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -80,7 +83,7 @@ class _MainScreenState extends State<MainScreen> {
                                 TextStyle(color: Colors.blueGrey, fontSize: 16),
                               ),
                               Text(
-                                "5 ",
+                                _mainScreenClass[index].quantity,
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -101,7 +104,7 @@ class _MainScreenState extends State<MainScreen> {
                                 TextStyle(color: Colors.blueGrey, fontSize: 16),
                               ),
                               Text(
-                                "tape ",
+                                _mainScreenClass[index].unit,
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -168,15 +171,12 @@ class _MainScreenState extends State<MainScreen> {
               ),
               Align(
                 child: Container(
-                  color: index%2  != 0
-                      ? Colors.red
-                      : Colors.green,
+                  color: _mainScreenClass[index].status  == "Required"
+                      ? Colors.green // stopped
+                      : Colors.red,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                        index%2  == 0
-                            ? "Required"
-                            : "Available",
+                    child: Text(_mainScreenClass[index].status,
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
@@ -191,8 +191,61 @@ class _MainScreenState extends State<MainScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-            builder: (context) => OrderDetails()));
+            builder: (context) => OrderDetails(model: _mainScreenClass[index],)));
       },
     );
   }
+  void updateView() {
+    setState(() {
+      _mainScreenClass = makeMainScreenClass();
+    });
+  }
+  void initState() {
+    super.initState();
+    updateView();
+  }
+}
+
+class MainScreenClass {
+  int id;
+  String name;
+  String image;
+  String quantity;
+  String unit;
+  String status;
+  MainScreenClass(this.id, this.name,this.image,this.quantity,this.unit,this.status);
+  MainScreenClass.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+    quantity = json['quantity'];
+    unit = json['unit'];
+    status = json['status'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['image'] = this.image;
+    data['quantity'] = this.quantity;
+    data['unit'] = this.unit;
+    data['status'] = this.status;
+    return data;
+  }
+}
+
+List<MainScreenClass> makeMainScreenClass() {
+  List<Medicine> _medicineList = dataMedicine();
+  List<MedicineType> _type = dataMedicineType();
+  List<MainScreenClass> _mainScreenClass = [];
+  int uniIndex = 0;
+  for(int x = 9 ; x < 19 ; x++) {
+    _mainScreenClass.add(MainScreenClass(_medicineList[x].id, _medicineList[x].name, _medicineList[x].image, x.toString()
+        , _type[uniIndex].name , x%2 == 0 ? "Available" : "Required" ));
+    uniIndex++;
+    if (uniIndex == _type.length - 1) {
+      uniIndex = 0;
+    }
+  }
+  return _mainScreenClass;
 }

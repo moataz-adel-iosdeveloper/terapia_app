@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:terapia_app/Screens/MainPages/contributionPage.dart';
 
 class RequestDetails extends StatefulWidget {
+  final ContributionPageClass model ;
+  RequestDetails({Key key, @required this.model}) : super(key: key);
   @override
   _RequestDetailsState createState() => _RequestDetailsState();
 }
@@ -12,7 +15,7 @@ class _RequestDetailsState extends State<RequestDetails> {
       appBar: _appBar(154.0),
       body: ListView.builder(
         itemBuilder: (context, index) => _makeCard(context, index),
-        itemCount: 10,
+        itemCount: this.widget.model.id,
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
       ),
@@ -93,9 +96,10 @@ class _RequestDetailsState extends State<RequestDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image(
-              image: AssetImage('images/medication.jpeg'),
+              image: AssetImage("images/medicine/"+this.widget.model.image+".jpg"),
               width: MediaQuery.of(context).size.width * 1.0,
               fit: BoxFit.cover,
+              height: 220,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15, bottom: 15, top: 15),
@@ -107,7 +111,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                   ),
                   Expanded(
                     child: Text(
-                      "SAPOFEN JUNIOR 100MG-5ML ",
+                      this.widget.model.name,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -133,7 +137,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                           TextStyle(color: Colors.blueGrey, fontSize: 16),
                         ),
                         Text(
-                          "5 ",
+                          this.widget.model.quantity,
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -154,7 +158,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                           TextStyle(color: Colors.blueGrey, fontSize: 16),
                         ),
                         Text(
-                          "tape ",
+                          this.widget.model.unit,
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -225,15 +229,18 @@ class _RequestDetailsState extends State<RequestDetails> {
         ),
         Align(
           child: Container(
-            color: //index%2  != 0
-            //? Colors.red :
-            Colors.green,
+            color: this.widget.model.status  == "Stopped"
+                ? Colors.red // stopped
+                : this.widget.model.status  == "Active"
+                ? Colors.green // active
+                : this.widget.model.status  == "Pending"
+                ? Colors.teal // pending
+                : this.widget.model.status  == "Completed"
+                ? Color(0xff6a77d0) // completed
+                : Colors.teal,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                //index%2  == 0
-                //? "Required":
-                "Available",
+              child: Text(this.widget.model.status,
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),

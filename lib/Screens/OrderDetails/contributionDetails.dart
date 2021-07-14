@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:terapia_app/Screens/MainPages/contributionPage.dart';
 
 class ContributionDetails extends StatefulWidget {
+  final ContributionPageClass model ;
+  ContributionDetails({Key key, @required this.model}) : super(key: key);
   @override
   _ContributionDetailsState createState() => _ContributionDetailsState();
 }
@@ -13,7 +16,7 @@ class _ContributionDetailsState extends State<ContributionDetails> {
       appBar: _appBar(154.0),
       body: ListView.builder(
         itemBuilder: (context, index) => _makeCard(context, index),
-        itemCount: 10,
+        itemCount: this.widget.model.id,
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
       ),
@@ -94,9 +97,10 @@ class _ContributionDetailsState extends State<ContributionDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image(
-              image: AssetImage('images/medication.jpeg'),
+              image: AssetImage("images/medicine/"+this.widget.model.image+".jpg"),
               width: MediaQuery.of(context).size.width * 1.0,
               fit: BoxFit.cover,
+              height: 220,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15, bottom: 15, top: 15),
@@ -108,7 +112,7 @@ class _ContributionDetailsState extends State<ContributionDetails> {
                   ),
                   Expanded(
                     child: Text(
-                      "SAPOFEN JUNIOR 100MG-5ML ",
+                      this.widget.model.name,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -134,7 +138,7 @@ class _ContributionDetailsState extends State<ContributionDetails> {
                           TextStyle(color: Colors.blueGrey, fontSize: 16),
                         ),
                         Text(
-                          "5 ",
+                          this.widget.model.quantity,
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -155,7 +159,7 @@ class _ContributionDetailsState extends State<ContributionDetails> {
                           TextStyle(color: Colors.blueGrey, fontSize: 16),
                         ),
                         Text(
-                          "tape ",
+                          this.widget.model.unit,
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -204,7 +208,7 @@ class _ContributionDetailsState extends State<ContributionDetails> {
                           TextStyle(color: Colors.blueGrey, fontSize: 16),
                         ),
                         Text(
-                          "10     EGP/UNIT",
+                          this.widget.model.quantity + "     EGP/UNIT",
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -276,15 +280,18 @@ class _ContributionDetailsState extends State<ContributionDetails> {
         ),
         Align(
           child: Container(
-            color: //index%2  != 0
-            //? Colors.red :
-            Colors.green,
+            color:  this.widget.model.status  == "Stopped"
+                ? Colors.red // stopped
+                : this.widget.model.status  == "Active"
+                ? Colors.green // active
+                : this.widget.model.status  == "Pending"
+                ? Colors.teal // pending
+                : this.widget.model.status  == "Completed"
+                ? Color(0xff6a77d0) // completed
+                : Colors.teal ,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                //index%2  == 0
-                //? "Required":
-                "Available",
+              child: Text(this.widget.model.status,
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
@@ -294,6 +301,7 @@ class _ContributionDetailsState extends State<ContributionDetails> {
       ],
     );
   }
+
   Widget _makeCard(BuildContext context, int index) {
     if (index == 0) {
       return _header(context);

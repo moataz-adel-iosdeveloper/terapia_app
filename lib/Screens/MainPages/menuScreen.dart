@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:terapia_app/Screens/MenuPages/aboutUs.dart';
-import 'package:terapia_app/Screens/MenuPages/addMedication.dart';
 import 'package:terapia_app/Screens/MenuPages/addPharmaceutical.dart';
 import 'package:terapia_app/Screens/MenuPages/contactUs.dart';
 import 'package:terapia_app/Screens/MenuPages/notificationPage.dart';
@@ -24,17 +23,15 @@ class _MenuScreenState extends State<MenuScreen> {
     AssetImage("images/bell.png"),
     AssetImage("images/medicines.png"),
     AssetImage("images/business_idea.png"),
-    AssetImage("images/heart.png"),
     AssetImage("images/call.png"),
     AssetImage("images/group.png"),
-    AssetImage("images/signـin.png")
+    AssetImage("images/login_icon.png")
   ];
   List<String> _data = [
     'Profile',
     'Notification',
     'Add pharmaceutical',
     'request medication',
-    'Add medication',
     'Contact us',
     'About us',
     'Login'
@@ -44,7 +41,6 @@ class _MenuScreenState extends State<MenuScreen> {
     NotificationPage(),
     AddPharmaceutical(),
     RequestMedication(),
-    AddMedication(),
     ContactUs(),
     AboutUs()
   ];
@@ -149,7 +145,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       ],
                     ),
                     onTap: (){
-                      if (index == 8) {
+                      if (index == 7) {
                         pushNewScreen(
                           context,
                           screen: LoginPage(),
